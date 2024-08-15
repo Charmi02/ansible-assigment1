@@ -1,0 +1,12 @@
+# roles/profile-n01561785/tasks/main.yml
+- name: Update /etc/profile
+  lineinfile:
+    path: /etc/profile
+    line: "#Test block added by Ansible……"
+    state: present
+
+- name: Set TMOUT variable
+  lineinfile:
+    path: /etc/profile
+    line: "export TMOUT=1500"
+    state: present

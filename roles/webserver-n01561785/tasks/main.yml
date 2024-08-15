@@ -1,0 +1,17 @@
+# roles/webserver-N01561785/tasks/main.yml
+- name: Install Apache
+  apt:
+    name: apache2
+    state: present
+
+- name: Create index.html
+  copy:
+    content: "{{ inventory_hostname }}"
+    dest: /var/www/html/index.html
+    mode: '0444'
+
+- name: Start Apache service
+  service:
+    name: apache2
+    state: started
+    enabled: yes

@@ -1,0 +1,6 @@
+---
+# tasks file for timezone
+- name: Set the time zone to America/Toronto
+  ansible.builtin.command:
+    cmd: timedatectl set-timezone America/Toronto
+  when: ansible_facts['distribution'] == "CentOS" or ansible_facts['distribution'] == "RedHat"

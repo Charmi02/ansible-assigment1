@@ -1,0 +1,19 @@
+[linux]
+vm-1785-u-vm1.australiaeast.cloudapp.azure.com
+vm-1785-u-vm2.australiaeast.cloudapp.azure.com
+vm-1785-u-vm3.australiaeast.cloudapp.azure.com
+
+[windows]
+n01561785-w-vm1.australiaeast.cloudapp.azure.com
+
+[os:children]
+linux
+windows
+
+[windows:vars]
+ansible_user = winadm
+ansible_password = Winadm!23
+ansible_connection = winrm
+ansible_port = 5985
+ansible_winrm_transport = ntlm
+ansible_winrm_server_cert_validation = ignore

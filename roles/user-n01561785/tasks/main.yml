@@ -1,0 +1,16 @@
+# roles/user-N01561785/tasks/main.yml
+- name: Add group cloudadmins
+  group:
+    name: cloudadmins
+
+- name: Add user accounts
+  loop: 
+    - user100
+    - user200
+    - user300
+  user:
+    name: "{{ item }}"
+    groups: cloudadmins,wheel
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+    ssh_key_file: "/home/{{ item }}/.ssh/id_rsa"

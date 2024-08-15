@@ -1,0 +1,9 @@
+---
+- name: Configure Azure Infrastructure
+  hosts: linux
+  become: yes
+  roles:
+    - role: profile-n01561785
+    - role: user-n01561785
+    - role: datadisk-n01561785
+    - role: webserver-n01561785

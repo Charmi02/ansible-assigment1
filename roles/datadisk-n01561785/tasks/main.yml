@@ -1,0 +1,61 @@
+- name: Check if /dev/sdb1 is already formatted
+  command: blkid -o value -s TYPE /dev/sdb1
+  register: fs_type_sdb1
+  ignore_errors: yes
+
+- name: Partition and format disk for /part1
+  parted:
+    device: /dev/sdb
+    number: 1
+    state: present
+    part_type: primary
+    fs_type: xfs
+    part_start: 0%
+    part_end: 40%
+  when: fs_type_sdb1.stdout != "xfs" or fs_type_sdb1.stdout == ""
+
+- name: Create filesystem on /dev/sdb1
+  filesystem:
+    fstype: xfs
+    dev: /dev/sdb1
+    force: yes
+  when: fs_type_sdb1.stdout != "xfs"
+
+- name: Mount /part1
+  mount:
+    path: /part1
+    src: /dev/sdb1
+    fstype: xfs
+    opts: defaults
+    state: mounted
+
+- name: Check if /dev/sdb2 is already formatted
+  command: blkid -o value -s TYPE /dev/sdb2
+  register: fs_type_sdb2
+  ignore_errors: yes
+
+- name: Partition and format disk for /part2
+  parted:
+    device: /dev/sdb
+    number: 2
+    state: present
+    part_type: primary
+    fs_type: ext4
+    part_start: 40%
+    part_end: 90%
+  when: fs_type_sdb2.stdout != "ext4" or fs_type_sdb2.stdout == ""
+
+- name: Create filesystem on /dev/sdb2
+  filesystem:
+    fstype: ext4
+    dev: /dev/sdb2
+    force: yes
+  when: fs_type_sdb2.stdout != "ext4"
+
+- name: Mount /part2
+  mount:
+    path: /part2
+    src: /dev/sdb2
+    fstype: ext4
+    opts: defaults
+    state: mounted
